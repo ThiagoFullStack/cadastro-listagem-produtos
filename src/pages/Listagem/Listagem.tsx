@@ -29,15 +29,27 @@ const Listagem: React.FC = () => {
     setProdutos(produtosAtualizados); // Atualiza o estado com os produtos atualizados
   };
 
+  const calcularTotal = () => {
+    return produtos
+      .filter((produto) => produto.disponivel === 'sim')
+      .reduce((total, produto) => total + produto.valor, 0)
+      .toFixed(2);
+  };
+
   return (
     <div>
       <h1>Listagem de Produtos</h1>
       <button onClick={() => navigate('/')}>Cadastrar Novo Produto</button>
+
+      {/* Exibindo o total dos produtos disponíveis */}
+      <p>Total de Produtos Disponíveis: {calcularTotal()}</p>
+
       <table>
         <thead>
           <tr>
             <th>Nome</th>
             <th>Valor</th>
+            <th>Disponível</th>
             <th>Ação</th>
           </tr>
         </thead>
@@ -53,7 +65,8 @@ const Listagem: React.FC = () => {
                 )}
                 {produto.nome ?? 'Produto não especificado'}
               </td>
-              <td>{produto.valor.toFixed(3)}</td>
+              <td>{produto.valor.toFixed(2)}</td>
+              <td>{produto.disponivel === 'sim' ? 'Sim' : 'Não'}</td>
               <td>
                 <button onClick={() => handleDelete(index)}>Excluir</button>
               </td>
