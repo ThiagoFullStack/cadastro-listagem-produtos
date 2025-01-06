@@ -1,0 +1,159 @@
+
+
+
+.formContainer
+css
+Copiar código
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px; /* Max-width 600px para smartphones/tablets */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; /* Centralizar o conteúdo */
+}
+display: flex;: Define o contêiner como um flexbox, permitindo o alinhamento fácil de seus filhos.
+flex-direction: column;: Coloca os itens (filhos) em uma coluna, um embaixo do outro.
+align-items: center;: Centraliza os itens no eixo horizontal.
+width: 100%;: Faz com que o contêiner ocupe 100% da largura disponível.
+max-width: 800px;: Define a largura máxima do contêiner como 800px.
+Comentário: "Max-width 600px para smartphones/tablets" sugere ajustes responsivos, mas essa regra não foi implementada diretamente aqui.
+padding: 20px;: Adiciona um espaçamento interno (espaço entre o conteúdo e as bordas do contêiner).
+border-radius: 8px;: Deixa as bordas arredondadas com 8px de raio.
+background-color: #f9f9f9;: Define a cor de fundo do contêiner como um tom claro de cinza.
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);: Adiciona uma sombra suave ao contêiner para destacar seu elemento na página.
+margin: 0 auto;: Centraliza o contêiner horizontalmente.
+
+
+
+
+form
+css
+Copiar código
+form {
+    width: 70%;
+}
+width: 70%;: Define a largura do formulário como 70% da largura do contêiner pai, deixando um espaço para respiração visual.
+
+
+
+
+label
+css
+Copiar código
+label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+width: 100%;: Faz com que o rótulo ocupe toda a largura disponível.
+display: flex;: Utiliza flexbox para organizar os filhos (como input e textarea).
+flex-direction: column;: Empilha os filhos verticalmente.
+margin-bottom: 10px;: Adiciona um espaço inferior entre os rótulos e outros elementos.
+
+
+
+
+Campos do Formulário
+css
+Copiar código
+input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+input, textarea, select: Aplica o mesmo estilo aos campos de texto, áreas de texto e seletores dropdown.
+width: 100%;: Faz com que os campos ocupem toda a largura disponível no contêiner.
+padding: 8px;: Adiciona um preenchimento interno para aumentar o espaço clicável e melhorar a acessibilidade.
+border: 1px solid #ccc;: Define uma borda cinza clara ao redor dos campos.
+border-radius: 4px;: Arredonda as bordas dos campos.
+
+
+
+
+Campo Numérico
+css
+Copiar código
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+Este estilo é redundante aqui, pois já é coberto pela regra anterior (input, textarea, select).
+
+
+
+
+Placeholder em Campos Numéricos
+css
+Copiar código
+input[type="number"]::placeholder {
+    color: #aaa;
+}
+::placeholder: Define o estilo do texto exibido como placeholder no campo numérico.
+color: #aaa;: Define o texto do placeholder em cinza claro.
+
+
+
+
+Botão
+css
+Copiar código
+button {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+padding: 10px 20px;: Define um espaçamento interno maior, aumentando a área clicável do botão.
+background-color: #0056b3;: Define o fundo do botão em azul escuro.
+color: white;: Torna o texto do botão branco.
+border: none;: Remove qualquer borda padrão.
+border-radius: 4px;: Arredonda as bordas do botão.
+cursor: pointer;: Mostra o ponteiro como "mão" ao passar o mouse sobre o botão.
+width: 100%;: Faz com que o botão ocupe toda a largura disponível no contêiner.
+
+
+
+
+Hover do Botão
+css
+Copiar código
+button:hover {
+    background-color: #f73c0d;
+}
+button:hover: Aplica estilos ao botão quando o cursor do mouse está sobre ele.
+background-color: #f73c0d;: Muda a cor de fundo para vermelho vibrante no estado de hover, indicando interatividade.
+
+
+
+
+Pontos de Melhoria
+Responsividade:
+
+Adicione uma media query para ajustar a largura máxima do formulário (max-width) para telas menores, conforme mencionado no comentário do código.
+css
+Copiar código
+@media (max-width: 600px) {
+    .formContainer {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    form {
+        width: 90%;
+    }
+}
+Estilo do Placeholder:
+
+Adicione o estilo do ::placeholder para outros tipos de campo além de number, se necessário.

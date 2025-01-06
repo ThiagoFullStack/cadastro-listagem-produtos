@@ -1,0 +1,189 @@
+
+Importações
+tsx
+Copiar código
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MdCheckCircle, MdCancel } from 'react-icons/md'; // Importa os ícones de check e cancel
+React: Importa o React, que é necessário para criar componentes.
+useEffect: Hook que executa código após o componente ser montado (ideal para carregar dados, por exemplo).
+useState: Hook para criar e gerenciar estados dentro de um componente funcional.
+useNavigate: Função do react-router-dom que permite redirecionar programaticamente o usuário para outra rota.
+MdCheckCircle e MdCancel: Ícones da biblioteca react-icons para simbolizar visualmente produtos disponíveis ou indisponíveis.
+
+
+
+Interface Produto
+tsx
+Copiar código
+interface Produto {
+  id: number;
+  nome: string | null | undefined;
+  descricao: string;
+  valor: number;
+  disponivel: string;
+}
+Define o formato do objeto que representa cada produto. A interface garante que todos os produtos tenham:
+
+id: Um identificador único.
+nome: Nome do produto (pode ser null ou undefined).
+descricao: Uma descrição do produto.
+valor: O preço do produto.
+disponivel: String indicando disponibilidade ("sim" ou "nao").
+Isso ajuda o TypeScript a validar o formato correto dos dados.
+
+
+
+
+Definindo o Estado e Navegação
+tsx
+Copiar código
+const [produtos, setProdutos] = useState<Produto[]>([]);
+const navigate = useNavigate();
+produtos: É um estado que armazena a lista de produtos. Inicialmente, é um array vazio.
+setProdutos: Função para atualizar o estado produtos.
+navigate: Função para redirecionar o usuário para outra página.
+
+
+
+
+Carregando Produtos com useEffect
+tsx
+Copiar código
+useEffect(() => {
+  const produtosSalvos = JSON.parse(localStorage.getItem('produtos') || '[]');
+  const produtosOrdenados = produtosSalvos.sort(
+    (a: Produto, b: Produto) => a.valor - b.valor
+  );
+  setProdutos(produtosOrdenados);
+}, []);
+localStorage.getItem('produtos'):
+
+Busca os produtos armazenados no navegador.
+Caso não existam produtos, retorna null.
+JSON.parse:
+
+Converte a string armazenada no localStorage em um array de objetos.
+produtosSalvos.sort:
+
+Ordena os produtos pelo valor (valor) em ordem crescente.
+setProdutos:
+
+Atualiza o estado com a lista de produtos ordenada.
+[] no useEffect:
+
+Indica que esse efeito será executado apenas uma vez, quando o componente for montado.
+
+
+
+
+Função para Excluir Produtos
+tsx
+Copiar código
+const handleDelete = (index: number) => {
+  const produtosAtualizados = [...produtos];
+  produtosAtualizados.splice(index, 1);
+  localStorage.setItem('produtos', JSON.stringify(produtosAtualizados));
+  setProdutos(produtosAtualizados);
+};
+index: Recebe o índice do produto a ser removido.
+[...produtos]: Cria uma cópia da lista de produtos atual (boa prática para não mutar diretamente o estado).
+splice(index, 1): Remove o produto na posição index.
+localStorage.setItem: Atualiza o localStorage com a nova lista de produtos.
+setProdutos(produtosAtualizados): Atualiza o estado com a lista sem o produto excluído.
+
+
+
+
+Função para Calcular o Total
+tsx
+Copiar código
+const calcularTotal = () => {
+  return produtos
+    .filter((produto) => produto.disponivel === 'sim')
+    .reduce((total, produto) => total + produto.valor, 0)
+    .toFixed(2);
+};
+produtos.filter:
+Seleciona apenas os produtos disponíveis (disponivel === 'sim').
+reduce:
+Soma os valores (valor) dos produtos filtrados.
+total: Acumulador que começa em 0.
+toFixed(2):
+Formata o total com duas casas decimais.
+
+
+
+
+Renderização
+Título e Botão de Navegação
+tsx
+Copiar código
+<h1>Listagem de Produtos</h1>
+<button onClick={() => navigate('/')}>Cadastrar Novo Produto</button>
+Exibe o título da página.
+Botão que redireciona o usuário para a página inicial (rota /).
+
+
+
+
+Exibindo Total de Produtos Disponíveis
+tsx
+Copiar código
+<p>Total de Produtos Disponíveis: {calcularTotal()}</p>
+Exibe o total de produtos disponíveis, calculado com a função calcularTotal.
+
+
+
+
+Tabela
+tsx
+Copiar código
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Valor</th>
+      <th>Disponível</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    {produtos.map((produto, index) => (
+      <tr key={produto.id}>
+        <td>
+          {produto.disponivel === 'sim' && (
+            <MdCheckCircle style={{ color: 'green', marginRight: '8px' }} />
+          )}
+          {produto.disponivel === 'nao' && (
+            <MdCancel style={{ color: 'red', marginRight: '8px' }} />
+          )}
+          {produto.nome ?? 'Produto não especificado'}
+        </td>
+        <td>{produto.valor.toFixed(2)}</td>
+        <td>{produto.disponivel === 'sim' ? 'Sim' : 'Não'}</td>
+        <td>
+          <button onClick={() => handleDelete(index)}>Excluir</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+Cabeçalho (thead):
+Define as colunas: Nome, Valor, Disponível e Ação.
+Corpo (tbody):
+Itera sobre a lista de produtos com map.
+Cada produto exibe:
+Ícone de disponibilidade (MdCheckCircle ou MdCancel).
+Nome do produto (ou mensagem padrão com ??).
+Valor formatado (toFixed(2)).
+Botão para excluir o produto.
+
+
+
+
+Exportação
+tsx
+Copiar código
+export default Listagem;
+Exporta o componente Listagem para ser usado em outras partes do projeto.

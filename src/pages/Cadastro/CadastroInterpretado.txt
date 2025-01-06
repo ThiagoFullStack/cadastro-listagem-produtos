@@ -1,0 +1,206 @@
+
+
+Importações
+tsx
+Copiar código
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Cadastro.module.css';
+React: Importa o React para criar o componente.
+useState: Hook usado para gerenciar os estados dos campos do formulário.
+useNavigate: Função do react-router-dom que permite redirecionar o usuário para outra rota após o cadastro.
+styles: Importa o arquivo CSS modular para estilizar o componente. 
+O uso de módulos CSS (como Cadastro.module.css) ajuda a evitar conflitos de estilo entre componentes.
+
+
+
+Gerenciando Estados
+tsx
+Copiar código
+const [nome, setNome] = useState<string>('');
+const [descricao, setDescricao] = useState<string>('');
+const [valor, setValor] = useState<number>(0);
+const [disponivel, setDisponivel] = useState<string>('sim');
+const navigate = useNavigate();
+nome: Estado para armazenar o nome do produto.
+descricao: Estado para armazenar a descrição do produto.
+valor: Estado para armazenar o preço do produto.
+disponivel: Estado para armazenar se o produto está disponível para venda ("sim" ou "nao").
+navigate: Função para redirecionar o usuário para outra página após o cadastro.
+
+
+
+Função de Envio do Formulário
+tsx
+Copiar código
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+  const novoProduto = { nome, descricao, valor, disponivel };
+  localStorage.setItem('produtos', JSON.stringify([...produtos, novoProduto]));
+  navigate('/listagem'); // Navegar para a página de listagem após o cadastro
+};
+handleSubmit:
+
+É chamada ao enviar o formulário.
+e.preventDefault(): Evita o comportamento padrão de recarregar a página ao submeter o formulário.
+localStorage.getItem('produtos'):
+
+Lê a lista de produtos armazenada no navegador.
+Retorna null se não houver dados, por isso o operador || '[]' garante que seja retornado um array vazio como fallback.
+novoProduto:
+
+Cria um novo objeto com os dados coletados do formulário.
+localStorage.setItem:
+
+Salva a nova lista de produtos, incluindo o novo produto, no localStorage.
+navigate('/listagem'):
+
+Redireciona o usuário para a página de listagem (/listagem) após o cadastro.
+
+
+
+Renderizando o Formulário
+tsx
+Copiar código
+return (
+  <div className={styles.formContainer}>
+    <form onSubmit={handleSubmit}>
+      {/* Campos do formulário */}
+    </form>
+  </div>
+);
+styles.formContainer:
+
+Aplica uma classe CSS ao contêiner do formulário usando o CSS modular.
+form onSubmit={handleSubmit}:
+
+Define a função handleSubmit como o manipulador para o evento de envio do formulário.
+
+
+
+Campos do Formulário
+Nome do Produto
+tsx
+Copiar código
+<label>
+  Nome do produto:
+  <input
+    type="text"
+    value={nome}
+    onChange={(e) => setNome(e.target.value)}
+    required
+  />
+</label>
+value={nome}:
+
+Vincula o estado nome ao valor do campo.
+onChange={(e) => setNome(e.target.value)}:
+
+Atualiza o estado nome com o valor digitado no campo.
+required:
+
+Torna o campo obrigatório.
+
+
+
+Descrição do Produto
+tsx
+Copiar código
+<label>
+  Descrição do produto:
+  <textarea
+    value={descricao}
+    onChange={(e) => setDescricao(e.target.value)}
+    required
+  />
+</label>
+textarea:
+
+Campo de texto para descrições mais longas.
+value={descricao}:
+
+Vincula o estado descricao ao valor do campo.
+onChange={(e) => setDescricao(e.target.value)}:
+
+Atualiza o estado descricao com o valor digitado.
+required:
+
+Torna o campo obrigatório.
+
+
+
+
+Valor do Produto
+tsx
+Copiar código
+<label>
+  Valor do produto:
+  <input
+    type="number"
+    step="0.001"
+    value={valor}
+    onChange={(e) => setValor(parseFloat(e.target.value))}
+    required
+  />
+</label>
+type="number":
+
+Define o campo como numérico.
+step="0.001":
+
+Permite inserir valores decimais com até três casas decimais.
+value={valor}:
+
+Vincula o estado valor ao valor do campo.
+onChange={(e) => setValor(parseFloat(e.target.value))}:
+
+Atualiza o estado valor convertendo a entrada do usuário para um número decimal.
+required:
+
+Torna o campo obrigatório.
+
+
+
+Disponibilidade do Produto
+tsx
+Copiar código
+<label>
+  Disponível para venda:
+  <select
+    value={disponivel}
+    onChange={(e) => setDisponivel(e.target.value)}
+  >
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+  </select>
+</label>
+select:
+
+Campo de seleção com duas opções: "Sim" e "Não".
+value={disponivel}:
+
+Vincula o estado disponivel ao valor selecionado.
+onChange={(e) => setDisponivel(e.target.value)}:
+
+Atualiza o estado disponivel com o valor escolhido.
+
+
+
+
+Botão de Submissão
+tsx
+Copiar código
+<button type="submit">Cadastrar</button>
+type="submit":
+Define o botão como um botão de envio do formulário.
+Ao clicar no botão, a função handleSubmit é chamada para processar os dados.
+
+
+
+
+Exportação
+tsx
+Copiar código
+export default Cadastro;
+Exporta o componente Cadastro para ser utilizado em outras partes do projeto.
