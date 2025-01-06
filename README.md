@@ -1,6 +1,6 @@
 # Desafio LionsSeminovos
 
-# #💻/ Lista de Produtos
+# #💻/ Lista de Produtos.
 
 
 ![Welcome](./src/assests/Logo.png?raw=true)
